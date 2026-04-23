@@ -1,14 +1,36 @@
 import { evaluate } from "mathjs";
 import { useState } from "react";
+import { generarDatos } from "./utils/fourier";
+import { evaluarFuncion } from "./utils/fourier"
+import { useMemo } from "react";
+import Graph from "./utils/grafico";
 
 function App() {
   const [resultado, setRE] = useState("");
   const [x, setx] = useState("");
+  const [xmin, setXmin] = useState(-10);
+  const [xmax, setXmax] = useState(10);
 
   // necesario para armar funciones a trozos
   const [piezas, setPiezas] = useState([
     { from: 0, to: 1, expr: "x",  includeFrom: true, includeTo: false }
   ]);
+
+  let y = null; 
+  try {
+    if (x !== "") {
+      y = evaluarFuncion(x, piezas);
+    }
+  } catch {}
+  
+  const datos = useMemo(() => {
+    const xminNum = Number(xmin);
+    const xmaxNum = Number(xmax);
+
+    if(isNaN(xminNum) || isNaN(xmaxNum)) return [];
+
+    return generarDatos(xmin, xmax, 1000, (x) => evaluarFuncion(x,piezas));
+  }, [xmin, xmax, piezas]);
 
   const agregarPieza = () => {
     setPiezas(prev => [
@@ -18,22 +40,6 @@ function App() {
   };
 // --------------------
 
-// evaluar funcion primero encuentra el tramo de la pieza mediante el intervalo (from to)
-//luego manda la expresion a evaluate, devolviendo imagen.
-//esto es temporal, por ahora calculamos x luego pasamos a fourier
-  const evaluarFuncion = (x) => {
-    const tramo = piezas.find(p => {
-      const left = p.includeFrom ? x >= p.from : x > p.from;
-      const right = p.includeTo ? x <= p.to : x < p.to;
-      return left && right;
-    });
-
-    if (!tramo) {
-      throw new Error("x fuera de rango");
-    }
-
-    return evaluate(tramo.expr, { x });
-  };
 
   const calcular = (e) => {
     e.preventDefault();
@@ -45,7 +51,7 @@ function App() {
     }
 
     try {
-      const resu = evaluarFuncion(xnum);
+      const resu = evaluarFuncion(xnum, piezas);
       setRE(resu);
     } catch(err){
       console.log("error en la funcion");
@@ -165,7 +171,22 @@ function App() {
           {p.includeTo ? "]" : ")"} → {p.expr}
         </div>
       ))}
+      <div>
+        <label>xmin:</label>
+        <input
+          type="number"
+          value={xmin}
+          onChange={(e) => setXmin(e.target.value)}
+        />
 
+        <label>xmax:</label>
+        <input
+          type="number"
+          value={xmax}
+          onChange={(e) => setXmax(e.target.value)}
+        />
+      </div>
+      <Graph data={datos} />
     </div>
   );
 }
