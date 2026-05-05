@@ -1,9 +1,11 @@
-import { evaluate } from "mathjs";
+import { evaluate, re } from "mathjs";
 import { useState } from "react";
 import { generarDatos } from "./utils/fourier";
 import { evaluarFuncion } from "./utils/fourier"
 import { useMemo } from "react";
 import Graph from "./utils/grafico";
+import { calcularCoeficientes, integrar } from "./utils/fourier/coeficientes";
+import { generarSerieTexto } from "./utils/fourier/serie";
 
 function App() {
   const [resultado, setRE] = useState("");
@@ -11,6 +13,13 @@ function App() {
   const [xmin, setXmin] = useState(-10);
   const [xmax, setXmax] = useState(10);
 
+  //prueba dps borrar
+  const f = (x) => x;
+  const coef = calcularCoeficientes(f,Math.PI,5);
+  const serie = generarSerieTexto(coef,Math.PI, 5);
+  console.log(serie);
+
+  
   // necesario para armar funciones a trozos
   const [piezas, setPiezas] = useState([
     { from: 0, to: 1, expr: "x",  includeFrom: true, includeTo: false }
