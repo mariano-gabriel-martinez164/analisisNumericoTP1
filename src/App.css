@@ -1,3 +1,67 @@
+:root {
+  --bg-dark: #1E1E2E;
+
+  --pastel-green: #6EE7B7;
+  --pastel-blue: #93C5FD;
+  --pastel-peach: #FDBA74;
+
+  --green-text: #D1FAE5;
+  --blue-text: #DBEAFE;
+  --peach-text: #FFEDD5;
+
+  --surface-dark: #2A2A3C;
+  --surface-dark-2: #34344A;
+
+  --border-soft: rgba(255,255,255,0.08);
+
+  --text-main: #E5E7EB;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 0.8rem 1.4rem;
+  margin: 10px;
+
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease,
+    box-shadow 0.15s ease;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.97);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+.btn-generar {
+  background-color: var(--pastel-blue);
+  color: var(--blue-text);
+}
+
+.btn-n {
+  background-color: var(--pastel-green);
+  color: var(--green-text);
+}
+
+.btn-extra {
+  background-color: var(--pastel-peach);
+  color: var(--peach-text);
+}
+
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
