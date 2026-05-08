@@ -4,6 +4,7 @@ import { generarDatos } from "./utils/fourier";
 import { evaluarFuncion } from "./utils/fourier"
 import { useMemo } from "react";
 import Graph from "./utils/grafico";
+import FourierTable from "./FourierTable.jsx";
 
 function App() {
   const [resultado, setRE] = useState("");
@@ -35,7 +36,7 @@ function App() {
   const agregarPieza = () => {
     setPiezas(prev => [
       ...prev,
-      { from: 0, to: 0, expr: "",  includeFrom: true, includeTo: false }
+      { from: 0, to: 0, expr: "0",  includeFrom: true, includeTo: false }
     ]);
   };
 // --------------------
@@ -70,7 +71,7 @@ function App() {
       {
         from: -Infinity,
         to: Infinity,
-        expr: "",
+        expr: "0",
         includeFrom: true,
         includeTo: true
       }
@@ -81,9 +82,9 @@ function App() {
     <div className="contenedorMain">
       <h1>Series de Fourier - análisis numérico</h1>
 
-      <form onSubmit={calcular}>
-        <label>x = </label>
-        <input value={x} onChange={(e) => setx(e.target.value)}/>
+     <form onSubmit={calcular}>
+        {/* <label>x = </label> */}
+        {/* <input value={x} onChange={(e) => setx(e.target.value)}/>*/}
         {/* p seria tramo, i indice, si no, se editarian todos juntos desde un mismo input*/}
         {piezas.map((p, i) => (
           <div key={i}>
@@ -187,8 +188,10 @@ function App() {
         />
       </div>
       <Graph data={datos} />
+      <FourierTable funcion={(t) => evaluarFuncion(t, piezas)}/>
     </div>
   );
 }
 
 export default App;
+
