@@ -8,10 +8,14 @@ export const evaluarFuncion = (x, piezas) => {
     });
 
     if (!tramo) {
-        throw new Error("x fuera de rango");
+        return NaN;
     }
 
-    return evaluate(tramo.expr, { x });
+    try {
+        return evaluate(tramo.expr, { x });
+    } catch {
+        return NaN;
+    }
 };
 
 

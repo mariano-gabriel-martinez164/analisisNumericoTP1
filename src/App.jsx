@@ -1,25 +1,39 @@
+import "./App.css";
+import SerieFourier from "./utils/fourier/comfinal";
+import { calcularCoeficientes } from "./utils/fourier/coeficientes";
+import DirichletTable from "./utils/fourier/Dirich";
 import { useState, useMemo } from "react";
 import { generarDatos, evaluarFuncion } from "./utils/fourier";
 import Graph from "./utils/grafico";
 import FourierTable from "./FourierTable.jsx";
 
-function App() {
+export default function App() {
   const [resultado, setRE] = useState("");
   const [x, setx] = useState("");
   const [xmin, setXmin] = useState(-10);
   const [xmax, setXmax] = useState(10);
-
+  const [coef, setCoef] = useState(null);
   // necesario para armar funciones a trozos
   const [piezas, setPiezas] = useState([
     { from: -10, to: 10, expr: "x",  includeFrom: true, includeTo: false,  error: ""}
   ]);
 
-  let y = null; 
-  try {
-    if (x !== "") {
-      y = evaluarFuncion(x, piezas);
-    }
-  } catch {}
+  const L = Math.PI;
+  const [N, setN] = useState(10);
+
+  const incrementarN = () => {
+    const nuevoN = N + 1;
+
+    setN(nuevoN);
+
+    const resultado = calcularCoeficientes((x) => evaluarFuncion(x,piezas), L, nuevoN);
+    setCoef(resultado);
+  };
+
+  const calcularSerieAlg = () => {
+    const resultado = calcularCoeficientes((x) => evaluarFuncion(x,piezas), L, N);
+    setCoef(resultado);
+  };
   
   const datos = useMemo(() => {
     const xminNum = Number(xmin);
@@ -249,9 +263,24 @@ function App() {
       </div>
       <Graph data={datos} />
       <FourierTable funcion={(t) => evaluarFuncion(t, piezas)}/>
+      <div> 
+        <button className="btn-n" onClick={calcularSerieAlg}>
+          Generar serie
+        </button>
+
+        <button
+          className="btn-extra"
+          onClick={incrementarN}>
+          Incrementar N = {N}
+        </button>
+
+        {coef && (
+          <SerieFourier coef={coef} L={L} N={N} />
+        )}
+        <DirichletTable f={(x) => evaluarFuncion(x,piezas)} puntos={[0, 1, 1.5, 2]}/>
+      </div>
     </div>
   );
 }
 
-export default App;
 

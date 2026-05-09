@@ -1,0 +1,85 @@
+.katex-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.serie {
+  font-size: 26px;
+  font-family: "Times New Roman", serif;
+  line-height: 1.8;
+  
+  max-width: 100%;
+  width:100%;
+  box-sizing: border-box;
+
+  padding: 18px 22px;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #0b0f0d, #0e1411, #0a0d0c);
+
+  color: #ecfdf5;
+
+  display: block;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  box-shadow:
+    inset 0 0 18px rgba(0, 255, 140, 0.03),
+    0 10px 25px rgba(0, 0, 0, 0.55);
+}
+.dirichlet-table {
+  border-collapse: collapse;
+
+  margin: 24px auto;
+
+  width: 240px;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+
+  background-color: var(--surface-dark);
+
+  color: var(--text-main);
+
+  box-shadow: 0 4px 18px rgba(0,0,0,0.28);
+
+  font-family: sans-serif;
+}
+
+.dirichlet-table th {
+  background-color: var(--surface-dark-2);
+
+  color: var(--pastel-blue);
+
+  padding: 12px 18px;
+
+  text-align: center;
+
+  font-weight: 700;
+}
+
+.dirichlet-table td {
+  padding: 12px;
+
+  text-align: center;
+
+  border-top: 1px solid var(--border-soft);
+}
+
+.dirichlet-table tr:hover td {
+  background-color: rgba(147, 197, 253, 0.08);
+}
+
+.dirichlet-title {
+  text-align: center;
+
+  color: var(--pastel-blue);
+
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 5px;
+  margin: 5px;
+
+  letter-spacing: 0.5px;
+}
