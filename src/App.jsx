@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { generarDatos, evaluarFuncion } from "./utils/fourier";
 import Graph from "./utils/grafico";
+import FourierTable from "./FourierTable.jsx";
 
 function App() {
   const [resultado, setRE] = useState("");
@@ -35,8 +36,8 @@ function App() {
       { from: 0, to: 0, expr: "",  includeFrom: true, includeTo: false, error: ""}
     ]);
   };
-// --------------------
 
+// --------------------
 
   const calcular = (e) => {
     e.preventDefault();
@@ -247,8 +248,10 @@ function App() {
         </div>
       </div>
       <Graph data={datos} />
+      <FourierTable funcion={(t) => evaluarFuncion(t, piezas)}/>
     </div>
   );
 }
 
 export default App;
+
