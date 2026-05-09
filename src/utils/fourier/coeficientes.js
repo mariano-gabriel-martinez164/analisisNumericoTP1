@@ -1,6 +1,9 @@
 //devuelve los resultados numericos de los coeficientes
 export function calcularCoeficientes(f, L, N)
 {
+    const limpiar = (v) => {
+        return Math.abs(v) < 1e-6 ? 0 : v;
+    };
     const a0 = (1/L) * integrar(f, -L, L); 
     const an = [];
     const bn = [];
@@ -13,16 +16,16 @@ export function calcularCoeficientes(f, L, N)
         const a_n = (1/L) * integrar(fnCos, -L, L);
         const b_n = (1/L) * integrar(fnSin, -L, L);
 
-        an.push(a_n);
-        bn.push(b_n);
+        an.push(limpiar(a_n));
+        bn.push(limpiar(b_n));
     }
 
-    return {a0,an,bn};
+    return {a0: limpiar(a0),an,bn};
 }
 // integracion de una funcion f por medio del metodo del trapecio
 export function integrar(f, a, b)
 {
-    const pasos = 5000;
+    const pasos = 20000;
     const h = (b - a) / pasos;
 
     let suma = f(a) + f(b);

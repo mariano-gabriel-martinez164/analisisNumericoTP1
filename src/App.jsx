@@ -8,14 +8,16 @@ import Graph from "./utils/grafico";
 import FourierTable from "./FourierTable.jsx";
 
 export default function App() {
+  const [resultado, setRE] = useState("");
+  const [x, setx] = useState("");
+  const [xmin, setXmin] = useState(-10);
+  const [xmax, setXmax] = useState(10);
   const [coef, setCoef] = useState(null);
   // necesario para armar funciones a trozos
   const [piezas, setPiezas] = useState([
     { from: -10, to: 10, expr: "x",  includeFrom: true, includeTo: false,  error: ""}
   ]);
 
-
-  const f = (x) => x; // ejemplo
   const L = Math.PI;
   const [N, setN] = useState(10);
 
@@ -24,12 +26,12 @@ export default function App() {
 
     setN(nuevoN);
 
-    const resultado = calcularCoeficientes(f, L, nuevoN);
+    const resultado = calcularCoeficientes((x) => evaluarFuncion(x,piezas), L, nuevoN);
     setCoef(resultado);
   };
 
-  const calcular = () => {
-    const resultado = calcularCoeficientes(f, L, N);
+  const calcularSerieAlg = () => {
+    const resultado = calcularCoeficientes((x) => evaluarFuncion(x,piezas), L, N);
     setCoef(resultado);
   };
   
@@ -262,7 +264,7 @@ export default function App() {
       <Graph data={datos} />
       <FourierTable funcion={(t) => evaluarFuncion(t, piezas)}/>
       <div> 
-        <button className="btn-n" onClick={calcular}>
+        <button className="btn-n" onClick={calcularSerieAlg}>
           Generar serie
         </button>
 
@@ -275,11 +277,10 @@ export default function App() {
         {coef && (
           <SerieFourier coef={coef} L={L} N={N} />
         )}
-        <DirichletTable f={f} puntos={[0, 1, 1.5, 2]}/>
+        <DirichletTable f={(x) => evaluarFuncion(x,piezas)} puntos={[0, 1, 1.5, 2]}/>
       </div>
     </div>
   );
 }
 
-export default App;
 
